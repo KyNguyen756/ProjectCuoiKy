@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Admin Manga Management</title>
+  <!-- Bootstrap CSS -->
+  <link rel="apple-touch-icon" href="/img/apple-icon.png">
+  <link rel="shortcut icon" type="image/x-icon" href="/img/favicon.ico">
+
+  <link rel="stylesheet" href="/css/bootstrap.min.css">
+  <link rel="stylesheet" href="/css/templatemo.css">
+  <link rel="stylesheet" href="/css/custom.css">
+
+  <!-- Load fonts style after rendering the layout styles -->
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto:wght@100;200;300;400;500;700;900&display=swap">
+  <link rel="stylesheet" href="/css/fontawesome.min.css">
+</head>
+<body>
+<div class="container my-5">
+  <h1 class="text-center mb-4">Manga Management</h1>
+
+  <!-- Add Manga Button -->
+  <div class="d-flex justify-content-end mb-3">
+    <button class="btn btn-success" data-bs-toggle="modal" data-bs-target="#mangaFormModal" onclick="populateModal(this)">Add New Manga</button>
+  </div>
+
+  <!-- Manga List Table -->
+  <div class="table-responsive">
+    <table class="table table-bordered table-striped">
+      <thead class="table-dark">
+      <tr>
+        <th>ID</th>
+        <th>Title</th>
+        <th>Author</th>
+        <th>Price</th>
+        <th>State</th>
+        <th>Volume</th>
+        <th>Description</th>
+        <th>Actions</th>
+      </tr>
+      </thead>
+      <tbody>
+      <!-- Example rows (replace dynamically using Thymeleaf or JavaScript) -->
+      <tr th:each="manga : ${manga}">
+        <td th:text="${manga.manga_id}"></td>
+        <td th:text="${manga.title}"></td>
+        <td th:text="${manga.author}"></td>
+        <td th:text="${manga.price}"></td>
+        <td th:text="${manga.state}"></td>
+        <td th:text="${manga.volume}"></td>
+        <td th:text="${manga.description}"></td>
+        <td>
+          <button class="btn btn-warning btn-sm" data-bs-toggle='modal' data-bs-target='#mangaFormModal' th:data-id="${manga.manga_id}"  onclick="populateModal(this)">Edit</button>
+          <a th:href="@{/admin/delete/{id}(id=${manga.manga_id})}" class="btn btn-danger btn-sm">Delete</a>
+        </td>
+      </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- Manga Form Modal -->
+<div class="modal fade" id="mangaFormModal" tabindex="-1" aria-labelledby="mangaFormModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <form id="mangaForm" th:action="@{/admin/save}" th:object="${editManga}" method="post">
+        <div class="modal-header">
+          <h5 class="modal-title" id="mangaFormModalLabel"></h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <div class="mb-3">
+            <label for="title" class="form-label">Title</label>
+            <input type="text" class="form-control" name="title" id="title" required>
+          </div>
+          <div class="mb-3">
+            <label for="author" class="form-label">Author</label>
+            <input type="text" class="form-control" name="author" id="author" required>
+          </div>
+          <div class="mb-3">
+            <label for="price" class="form-label">Price</label>
+            <input type="number" class="form-control" name="price" id="price" step="0.01" required>
+          </div>
+          <div class="mb-3">
+            <label for="state" class="form-label">State</label>
+            <select class="form-select" name="state" id="state">
+              <option value="FINISHED">Finished</option>
+              <option value="UNFINISHED">Unfinished</option>
+            </select>
+          </div>
+          <div class="mb-3">
+            <label for="volume" class="form-label">Volume</label>
+            <input type="number" class="form-control" name="volume" id="volume" required>
+          </div>
+          <div class="mb-3">
+            <label for="cover_image" class="form-label">Cover Image</label>
+            <input type="text" class="form-control" name="cover_image" id="cover_image" required>
+          </div>
+          <div class="mb-3">
+            <label for="description" class="form-label">Description</label>
+            <input type="text" class="form-control" name="description" id="description" required>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="submit" class="btn btn-primary">Save</button>
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+
+<!-- Bootstrap JS -->
+<script src="/js/jquery-1.11.0.min.js"></script>
+<script src="/js/jquery-migrate-1.2.1.min.js"></script>
+<script src="/js/bootstrap.bundle.min.js"></script>
+<script src="/js/templatemo.js"></script>
+<script src="/js/custom.js"></script>
+</body>
+</html>

@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <title>Zaymanga</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <link rel="apple-touch-icon" href="/img/apple-icon.png">
+    <link rel="shortcut icon" type="image/x-icon" href="/img/favicon.ico">
+
+    <link rel="stylesheet" href="/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/css/templatemo.css">
+    <link rel="stylesheet" href="/css/custom.css">
+
+    <!-- Load fonts style after rendering the layout styles -->
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto:wght@100;200;300;400;500;700;900&display=swap">
+    <link rel="stylesheet" href="/css/fontawesome.min.css">
+<!--
+    
+TemplateMo 559 Zay Shop
+
+https://templatemo.com/tm-559-zay-shop
+
+-->
+</head>
+
+<body>
+    <div th:replace="~{fragment/navbar :: navbar}"></div>
+    <!-- Start Content -->
+    <div class="container py-5">
+        <div class="row">
+
+            <div class="col-lg-3">
+                <h1 class="h2 pb-4">Categories</h1>
+                <ul class="list-unstyled templatemo-accordion">
+                    <li class="pb-3">
+                        <a class="collapsed d-flex justify-content-between h3 text-decoration-none" href="#">
+                            Genre
+                            <i class="fa fa-fw fa-chevron-circle-down mt-1"></i>
+                        </a>
+                        <ul class="collapse show list-unstyled pl-3">
+                            <li><a class="text-decoration-none" href="#">Shounen</a></li>
+                            <li><a class="text-decoration-none" href="#">Seinen</a></li>
+                        </ul>
+                    </li>
+                    <li class="pb-3">
+                        <a class="collapsed d-flex justify-content-between h3 text-decoration-none" href="#">
+                            Sale
+                            <i class="pull-right fa fa-fw fa-chevron-circle-down mt-1"></i>
+                        </a>
+                        <ul id="collapseTwo" class="collapse list-unstyled pl-3">
+                            <li><a class="text-decoration-none" href="#">EventSale</a></li>
+                            <li><a class="text-decoration-none" href="#">WinterSale</a></li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+
+            <div class="col-lg-9">
+                <div class="row">
+                    <div class="col-md-6">
+                        <ul class="list-inline shop-top-menu pb-3 pt-1">
+                            <li class="list-inline-item">
+                                <a class="h3 text-dark text-decoration-none mr-3" href="#">All</a>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="col-md-6 pb-4">
+                        <div class="d-flex">
+                            <select class="form-control">
+                                <option>Featured</option>
+                                <option>A to Z</option>
+                                <option>Item</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-4" th:each="manga : ${manga}">
+                        <div class="card mb-4 product-wap rounded-0" th:href="@{'/manga/' + ${manga.manga_id}}">
+                            <div class="card rounded-0">
+                                <img class="card-img rounded-0 img-fluid" th:src="@{'/img/mangacover/' + ${manga.cover_image}}">
+                                <div class="card-img-overlay rounded-0 product-overlay d-flex align-items-center justify-content-center">
+                                    <ul class="list-unstyled">
+                                        <li><a class="btn btn-success text-white" href="shop-single.html"><i class="far fa-heart"></i></a></li>
+                                        <li><a class="btn btn-success text-white mt-2" href="shop-single.html"><i class="far fa-eye"></i></a></li>
+                                        <li><a class="btn btn-success text-white mt-2" th:href="@{'/login'}"><i class="fas fa-cart-plus"></i></a></li>
+                                    </ul>
+                                </div>
+                            </div>
+                            <div class="card-body">
+                                <a href="shop-single.html" class="h3 text-decoration-none" th:text="${manga.title}"></a>
+                                <ul class="w-100 list-unstyled d-flex justify-content-between mb-0">
+                                    <li th:text="@{'Vol.' + ${manga.volume}}"></li>
+                                    <li class="pt-2">
+                                        <span class="product-color-dot color-dot-red float-left rounded-circle ml-1"></span>
+                                        <span class="product-color-dot color-dot-blue float-left rounded-circle ml-1"></span>
+                                        <span class="product-color-dot color-dot-black float-left rounded-circle ml-1"></span>
+                                        <span class="product-color-dot color-dot-light float-left rounded-circle ml-1"></span>
+                                        <span class="product-color-dot color-dot-green float-left rounded-circle ml-1"></span>
+                                    </li>
+                                </ul>
+                                <ul class="list-unstyled d-flex justify-content-center mb-1">
+                                    <li>
+                                        <i class="text-warning fa fa-star"></i>
+                                        <i class="text-warning fa fa-star"></i>
+                                        <i class="text-warning fa fa-star"></i>
+                                        <i class="text-muted fa fa-star"></i>
+                                        <i class="text-muted fa fa-star"></i>
+                                    </li>
+                                </ul>
+                                <p class="text-center mb-0" th:text="@{'$' + ${manga.price}}"></p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <ul class="pagination pagination-lg justify-content-end">
+                        <li class="page-item">
+                            <a class="page-link rounded-0 shadow-sm border-top-0 border-left-0 text-dark" th:if="${currentPage > 0}" th:href="@{'/shop?page=' + ${currentPage - 1}}">Previous</a>
+                        </li>
+                        <li class="page-item">
+                            <a class="page-link rounded-0 mr-3 shadow-sm border-top-0 border-left-0 text-dark" th:text="'Page ' + (${currentPage + 1}) + ' of ' + ${totalPages}"></a>
+                        </li>
+                        <li class="page-item">
+                            <a class="page-link rounded-0 shadow-sm border-top-0 border-left-0 text-dark" th:if="${currentPage < totalPages - 1}" th:href="@{'/shop?page=' + ${currentPage + 1}}">Next</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+
+        </div>
+    </div>
+    <!-- End Content -->
+
+    <div th:replace="~{fragment/footer :: footer}"></div>
+
+    <!-- Start Script -->
+    <script src="/js/jquery-1.11.0.min.js"></script>
+    <script src="/js/jquery-migrate-1.2.1.min.js"></script>
+    <script src="/js/bootstrap.bundle.min.js"></script>
+    <script src="/js/templatemo.js"></script>
+    <script src="/js/custom.js"></script>
+    <!-- End Script -->
+</body>
+
+</html>
